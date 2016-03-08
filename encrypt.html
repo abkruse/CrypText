@@ -7,19 +7,24 @@
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <link href='https://fonts.googleapis.com/css?family=Rubik+Mono+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='style.css'>
   </head>
   <body class='encrypt-body'>
     <nav>
     </nav>
-    <h1 class='main-header'>cryptext</h1>
-    <form class='encryptMess'>
+    <a href='index.html'><h1 class='main-header'>cryptext</h1></a>
+    <form class='encrypt-mess'>
       <div>
-        <label class='name'>What's your name?<input id='name' type='text' placeholder='Neo'/></label>
+        <label class='name'>What's your name?
+        <input id='name' type='text' placeholder='Morpheus'/></label>
       </div>
       <div>
-        <label class='secret'>What's your secret?<input id='secret-word' type='text' placeholder='abracadabra' /></label>
+        <label class='secret'>What's your passcode?
+        <input id='secret-word' type='text' placeholder='white rabbit' /></label>
+      </div>
+      <div>
+        <label>Write your message here:</label>
       </div>
       <div>
         <textarea id="message" maxlength="300" rows='10'></textarea>

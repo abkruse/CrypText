@@ -7,18 +7,24 @@
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <link href='https://fonts.googleapis.com/css?family=Rubik+Mono+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='style.css'>
   </head>
   <body class='encrypt-body'>
     <nav>
     </nav>
-    <h1 class='main-header'>cryptext</h1>
-    <form class='UnencryptMess'>
-    <label class='name'>What's your name?<input id='name' type='text' placeholder='Neo'/></label>
-    <label class='secret'>What's your secret?<input id='secret-word' type='text' placeholder='abracadabra' /></label>
-    <label class='url'>What's the URL your co-conspirator shared?<input type='url' class='url' /> </label>
-    <input class='decoder-ring' type='submit' />
+    <a href='index.html'><h1 class='main-header'>cryptext</h1></a>
+    <form class='unencrypt-mess'>
+      <div>
+        <label class='name'>What's your name?<input id='name' type='text' placeholder='Neo'/></label>
+        <label class='secret' id='pass'>What's the passcode?<input id='secret-word' type='text' placeholder='white rabbit' required/></label>
+      </div>
+      <div>
+        <label class='url'>What's the keycode your co-conspirator shared?<input type='text' id='url' required/> </label>
+      </div>
+      <div>
+        <input class='decoder-ring' type='submit' />
+      </div>
     </form>
 
   </body>
