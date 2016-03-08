@@ -3,7 +3,7 @@
 
   $(document).ready(function() {
 
-    var encryption, Create, cols, secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, getURL, decode, msg;
+    var encryption, Create, cols, secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, getURL, decode, msg, decodePass, alphaPass, jmbleMsg, mixMsg, roteMsg, decodedArr, decodedMsg;
 
     var myDataRef = new Firebase('https://cryptext.firebaseio.com/');
 
@@ -100,8 +100,8 @@
         returnMsg.push(message.charAt(y));
       }
 
-      var decodePass = [];
-      var alphaPass = [];
+      decodePass = [];
+      alphaPass = [];
 
       for(var i = 0; i < secret.length; i ++) {
         decodePass.push(secret.charAt(i));
@@ -110,7 +110,7 @@
 
       alphaPass.sort();
 
-      var jmbleMsg = [];
+      jmbleMsg = [];
 
       numArr = message.length / secret.length;
 
@@ -132,8 +132,8 @@
         newOrdr.push(decodePass.indexOf(alphaPass[m]));
       }
 
-      var mixMsg = [];
-      var roteMsg = [];
+      mixMsg = [];
+      roteMsg = [];
 
       for (var z = 0; z < newOrdr.length; z++) {
         idx = newOrdr.indexOf(z);
@@ -143,24 +143,17 @@
         }
         roteMsg.push(mixMsg.splice(0, numArr));
       }
-      var decodedArr = [];
+      decodedArr = [];
 
       for(var a = 0; a < numArr; a++ ) {
         for (var b = 0; b < secret.length; b++) {
           decodedArr.push(roteMsg[b][a]);
         }
       }
-      console.log(decodedArr.join(''));
+
+       decodedMsg = decodedArr.join('');
+
+       $('.UnencryptMess').after('<p>' + decodedMsg + '</p>');
     });
-
-    // decode = function(){
-
-      //sort the keyword
-
-      //split message into arrays equal in length to the keyword
-
-
-    // };
-
   });
 })();
