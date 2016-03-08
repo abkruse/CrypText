@@ -129,9 +129,7 @@
           }
 
           alphaPass.sort();
-
           jmbleMsg = [];
-
           numArr = fbMessage.length / secret.length;
 
           for (var l = 0; l < secret.length; l++) {
