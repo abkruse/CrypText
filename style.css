@@ -17,6 +17,7 @@ p {
   border-radius: 3px;
   font-family: 'Inconsolata', sans-serif;
   text-align: center;
+  background-color: RGBA(45, 45, 45, .8);
 }
 
 .keycode {
@@ -37,9 +38,17 @@ h1  {
   font-family: 'Rubik Mono One', sans-serif;
 }
 
- h3, h1 {
+h3, h2, h1 {
    color: RGBA(238, 76, 60, 1);
  }
+
+h2 {
+  font-family: 'Inconsolata', sans-serif;
+  color: white;
+  font-size: 300%;
+  margin-left: 36%;
+  width: 40%;
+}
 
  h3 {
    background-color: RGBA(45, 45, 45, .8);
@@ -94,10 +103,16 @@ h1  {
   font-family: 'Inconsolata', sans-serif;
   margin-left: 20%;
 }
+
 .decoder-ring{
   margin-left: 30%;
 }
 
 .hide{
   display: none;
+}
+
+.try-again {
+  width: 20%;
+  margin-left: 41%;
 }

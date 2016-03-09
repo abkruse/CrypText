@@ -25,6 +25,7 @@
     });
 
     var encryption = function() {
+      
     var secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, getURL, decode, msg, cols, urlEnd;
 
       cols = Create.secret.length;
@@ -178,6 +179,10 @@
 
            }, 200);
         } else {
+            $('form').attr('class', 'hide');
+
+            $('h1').after('<h2>That is incorrect.</h2><p>The passcode is usually one word and is not case sensitive</p>');
+            $('p').after('<a href="crypt.html"><h3 class="try-again">Try Again</h3></a>');
 
         }
       });
