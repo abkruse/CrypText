@@ -229,11 +229,14 @@
 
       console.log(output);
 
+      var counter = 0;
       setTimeout(function(){
         $('form').attr('class', 'hide');
         $('h4').attr('class', 'hide');
 
-        $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
+        $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
+        counter+= 1;
+        console.log(counter);
       }, 200);
 
     };
