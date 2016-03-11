@@ -2,11 +2,11 @@
   'use strict';
 
   $(document).ready(function() {
-    var Create, userId;
+    var Create;
 
     var ref = new Firebase('https://cryptext.firebaseio.com/');
 
-    var Instance = function (name, secret, message, userId, status) {
+    var Instance = function(name, secret, message, userId) {
       this.name = name;
       this.secret = secret;
       this.message = message;
@@ -18,8 +18,9 @@
       $('.login-create').before('<a href="history.html"><h3 class="history">My History</h3></a>');
 
       $('.login-create').text('Logged In');
+      $('.return').remove();
 
-      ref.orderByChild("userId").equalTo(sessionStorage.id).on("value", function(snapshot) {
+      ref.orderByChild('userId').equalTo(sessionStorage.id).on('value', function(snapshot) {
         var data = snapshot.val();
         var keys = Object.keys(data);
         var messages = [];
@@ -30,6 +31,7 @@
         for (var d = 0; d < keys.length; d++) {
           var entryId = keys[d];
           var entry = data[entryId];
+
           messages.push(entry.message);
           names.push(entry.name);
           statuses.push(entry.status);
@@ -47,7 +49,7 @@
     $('.login-btn').on('click', function(e) {
       e.preventDefault();
 
-      ref.authWithPassword( {
+      ref.authWithPassword({
         'password': $('.user-password').val(),
         'email': $('.user-email').val()
       }, function(error, authData) {
@@ -55,10 +57,8 @@
           $('.email-div').attr('class', 'animated email-div shake');
           $('.pass-div').attr('class', 'animated pass-div shake');
         } else {
-          console.log(authData);
           sessionStorage.id = authData.uid;
-          userId = authData.uid;
-          location.href='index.html';
+          location.href = 'index.html';
         }
       });
     });
@@ -71,7 +71,7 @@
       $('.anon-encrypt-mess').attr('class', 'anon-encrypt-mess hide');
     });
 
-    $('.done').on('click', function(e){
+    $('.done').on('click', function(e) {
       e.preventDefault();
 
       ref.authWithPassword({
@@ -82,13 +82,11 @@
           $('.email-div').attr('class', 'animated email-div shake');
           $('.pass-div').attr('class', 'animated pass-div shake');
         } else {
-          console.log(authData);
           sessionStorage.id = authData.uid;
-          userId = authData.uid;
 
-          if(!$('#name').val()) {
+          if (!$('#name').val()) {
             $('#name').attr('class', 'animated shake');
-          } else if(!$('#secret-word').val()) {
+          } else if (!$('#secret-word').val()) {
             $('#secret-word').attr('class', 'animated shake');
           } else if (!$('#message').val()) {
             $('#message').attr('class', 'animated shake');
@@ -115,19 +113,18 @@
         password: $('.create-password').val()
       }, function(error, userData) {
         if (error) {
-        switch (error.code) {
-          case "EMAIL_TAKEN" :
-            $('.create-email').after('<p>This email already has an account.</p>');
-            break;
-          case "INVALID_EMAIL":
-            $('.create-new').attr('class', 'animated create-new shake');
-            break;
-          default:
-            $('.create-new').attr('class', 'animated create-new shake');
+          switch (error.code) {
+            case 'EMAIL_TAKEN' :
+              $('.create-email').after('<p>This email already has an account.</p>');
+              break;
+            case 'INVALID_EMAIL':
+              $('.create-new').attr('class', 'animated create-new shake');
+              break;
+            default:
+              $('.create-new').attr('class', 'animated create-new shake');
           }
         } else {
-          console.log("Successfully created user account with uid:", userData.uid);
-          location.href='index.html';
+          location.href = 'index.html';
           sessionStorage.id = userData.uid;
         }
       });
@@ -136,9 +133,9 @@
     $('.anon-done').on('click', function(e) {
       e.preventDefault();
 
-      if(!$('#anon-name').val()) {
+      if (!$('#anon-name').val()) {
         $('#anon-name').attr('class', 'animated shake');
-      } else if(!$('#anon-secret-word').val()) {
+      } else if (!$('#anon-secret-word').val()) {
         $('#anon-secret-word').attr('class', 'animated shake');
       } else if (!$('#anon-message').val()) {
         $('#anon-message').attr('class', 'animated shake');
@@ -158,15 +155,14 @@
     });
 
     var encryption = function() {
-
-      var secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, getURL, decode, msg, cols, urlEnd;
+      var secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, msg, cols, urlEnd;
 
       cols = Create.secret.length;
       secArr = [];
       alphaArr = [];
       messArr = [];
 
-      for(var n = 0; n < cols; n ++){
+      for (var n = 0; n < cols; n++) {
         secArr.push(Create.secret[n]);
         alphaArr.push(Create.secret[n]);
       }
@@ -179,14 +175,15 @@
       }
 
       if (Create.message.length % cols !== 0) {
-        for(var i = 0; i <= messArr.length % cols; i++ )
+        for (var i = 0; i <= messArr.length % cols; i++ ){
           messArr.push('x');
+        }
       }
 
       numArr = messArr.length / cols;
       splitMsg = [];
 
-      for(var k = 0; k < numArr; k ++) {
+      for (var k = 0; k < numArr; k++) {
         splitMsg.push(messArr.splice(0, cols));
       }
 
@@ -200,9 +197,9 @@
 
       encMsgArr = [];
 
-      for(var y = 0; y < newOrdr.length; y++) {
+      for (var y = 0; y < newOrdr.length; y++) {
         idx = newOrdr.indexOf(y);
-        for(var z = 0; z < numArr; z++) {
+        for (var z = 0; z < numArr; z++) {
           encMsgArr.push(splitMsg[z][idx]);
         }
       }
@@ -210,7 +207,7 @@
       var encrypted = encMsgArr.join('');
 
       var date = new Date();
-      var today = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2,2);
+      var today = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2, 2);
 
       ref.push({
         name: Create.name,
@@ -221,27 +218,21 @@
         date: today
       });
 
-      ref.limitToLast(1).on("child_added", function(snapshot) {
+      ref.limitToLast(1).on('child_added', function(snapshot) {
         urlEnd = snapshot.key();
       });
 
       var output = Create.name + ' says: ' + encrypted + '. Your keycode is ' + urlEnd + '. Go to http://www.cryptext.com to crack the code.';
 
-      console.log(output);
-
-      var counter = 0;
       setTimeout(function(){
         $('form').attr('class', 'hide');
         $('h4').attr('class', 'hide');
 
         $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
-        counter+= 1;
-        console.log(counter);
       }, 200);
-
     };
 
-    $('.decoder-ring').on('click', function(e){
+    $('.decoder-ring').on('click', function(e) {
       var secret, usrUrl, senderName, fbUrl, fbSecret, data, fbMessage, returnMsg, decodePass, alphaPass, jmbleMsg, mixMsg, roteMsg, decodedArr, decodedMsg, newOrdr, splitMsg, numArr, idx;
 
       e.preventDefault();
@@ -250,28 +241,27 @@
       usrUrl = $('#url').val();
       fbUrl = 'https://cryptext.firebaseio.com/' + usrUrl + '';
 
-      var instRef = new Firebase (fbUrl);
+      var instRef = new Firebase(fbUrl);
 
-      instRef.on("value", function(snapshot) {
+      instRef.on('value', function(snapshot) {
         data = snapshot.val();
         senderName = data.name;
         fbSecret = data.secret;
         fbMessage = data.message;
 
         if (fbSecret === secret) {
-
-          instRef.update({status: 'opened'});
+          instRef.update({ status: 'opened' });
 
           returnMsg = [];
 
-          for (var y = 0; y < fbMessage.length; y ++) {
+          for (var y = 0; y < fbMessage.length; y++) {
             returnMsg.push(fbMessage.charAt(y));
           }
 
           decodePass = [];
           alphaPass = [];
 
-          for(var i = 0; i < secret.length; i ++) {
+          for (var i = 0; i < secret.length; i++) {
             decodePass.push(secret.charAt(i));
             alphaPass.push(secret.charAt(i));
           }
@@ -280,7 +270,6 @@
           jmbleMsg = [];
           numArr = fbMessage.length / secret.length;
 
-          var count = 0;
           for (var l = 0; l < numArr; l++) {
             for (var j = l; j < fbMessage.length; j += numArr) {
               jmbleMsg.push(returnMsg[j]);
@@ -289,7 +278,7 @@
 
           splitMsg = [];
 
-          for(var p = 0; p < numArr; p++) {
+          for (var p = 0; p < numArr; p++) {
             splitMsg.push(jmbleMsg.splice(0, secret.length));
           }
 
@@ -313,23 +302,22 @@
           }
           decodedArr = [];
 
-          for(var a = 0; a < numArr; a++ ) {
+          for (var a = 0; a < numArr; a++ ) {
             for (var b = 0; b < secret.length; b++) {
               decodedArr.push(roteMsg[b][a]);
             }
           }
-           decodedMsg = decodedArr.join('');
+          decodedMsg = decodedArr.join('');
 
-           setTimeout(function(){
-             $('form').attr('class', 'hide');
-
-             $('.hide').after('<p> ' + senderName + ' sent you the following message: </p><p>'+ decodedMsg + '</p>');
-           }, 200);
-        } else {
+          setTimeout(function(){
             $('form').attr('class', 'hide');
 
-            $('h1').after('<h2>That is incorrect.</h2><p>The passcode is usually one word and is not case sensitive</p><a href="crypt.html"><p class="try-again"> -> Try Again <- </p></a>');
+            $('.hide').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
+           }, 200);
+        } else {
+          $('form').attr('class', 'hide');
 
+          $('h1').after('<h2>That is incorrect.</h2><p>The passcode is usually one word and is not case sensitive</p><a href="crypt.html"><p class="try-again"> -> Try Again <- </p></a>');
         }
       });
     });
