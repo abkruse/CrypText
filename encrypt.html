@@ -7,30 +7,64 @@
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <link href='https://fonts.googleapis.com/css?family=Rubik+Mono+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="animate.min.css">
     <link rel='stylesheet' href='style.css'>
   </head>
   <body class='encrypt-body'>
     <nav>
+      <a class='a-login'href="login.html"><h3 class='login-create'>Login / Create User</h3></a>
     </nav>
-    <a href='index.html'><h1 class='main-header'>cryptext</h1></a>
-    <form class='encrypt-mess'>
+    <a href='index.html' class='a-header'><h1 class='main-header'>cryptext</h1></a>
+    <h4 class='return animated shake'>Want to login first?</h4>
+    <form class='login-user hide'>
+      <div class='email-div'>
+        <label> Email: </label>
+        <input class='user-email' type='email' />
+      </div>
+      <div class='pass-div'>
+        <label> Password: </label>
+        <input class='user-password' type='password' />
+      </div>
+      <div class='encrypt-mess'>
+        <div>
+          <label class='name'>Who will receive this?
+          <input id='name' type='text' placeholder='Morpheus' autofocus/></label>
+        </div>
+        <div>
+          <label class='secret'>What's your passcode?
+          <input id='secret-word' type='text' placeholder='white rabbit' /></label>
+        </div>
+        <div>
+          <label>Write your message here:</label>
+        </div>
+        <div>
+          <textarea id="message" maxlength="300" rows='10' placeholder="They have changed something in the Matrix! Meet me at Seventh and Bell!"></textarea>
+        </div>
+        <div>
+          <input class='done' type='submit' />
+        </div>
+      </div>
+    </form>
+
+    <form class='anon-encrypt-mess'>
       <div>
-        <label class='name'>What's your name?
-        <input id='name' type='text' placeholder='Morpheus'/></label>
+        <label class='anon-name'>Who will receive this?
+        <input id='anon-name' type='text' placeholder='Morpheus'/></label>
       </div>
       <div>
-        <label class='secret'>What's your passcode?
-        <input id='secret-word' type='text' placeholder='white rabbit' /></label>
+        <label class='anon-secret'>What's your passcode?
+        <input id='anon-secret-word' type='text' placeholder='white rabbit' /></label>
       </div>
       <div>
         <label>Write your message here:</label>
       </div>
       <div>
-        <textarea id="message" maxlength="300" rows='10'></textarea>
+        <textarea id="anon-message" maxlength="300" rows='10' placeholder="They have changed something in the Matrix! Meet me at Seventh and Bell!"></textarea>
       </div>
       <div>
-        <input class='done' type='submit' />
+        <input class='anon-done' type='submit' />
       </div>
     </form>
 

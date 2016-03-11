@@ -11,13 +11,29 @@ a {
 
 p {
   width: 40%;
-  margin-left: 32%;
+  margin-left: 30%;
   color: white;
   font-size: 150%;
   border-radius: 3px;
   font-family: 'Inconsolata', sans-serif;
   text-align: center;
   background-color: RGBA(45, 45, 45, .8);
+}
+
+table {
+  background-color: RGBA(45, 45, 45, .8);
+  margin-left: 31%;
+}
+
+td, th {
+  color: white;
+  font-size: 130%;
+  font-family: 'Inconsolata', sans-serif;
+  text-align: center;
+}
+
+th {
+   color: RGBA(238, 76, 60, 1);
 }
 
 .keycode {
@@ -33,8 +49,8 @@ label {
 h1  {
   margin-top: 5%;
   font-size: 500%;
-  margin-right: 40%;
-  margin-left: 32%;
+  text-align: center;
+  margin-bottom: 2%;
   font-family: 'Rubik Mono One', sans-serif;
 }
 
@@ -50,23 +66,37 @@ h2 {
   width: 40%;
 }
 
- h3 {
+ .send, .crack, .login-create {
    background-color: RGBA(45, 45, 45, .8);
    font-family: 'Inconsolata', sans-serif;
    padding: 1%;
    width: 50%;
+   padding: 0%;
+   margin-top: 2%;
    margin-left: 28%;
    margin-right: 25%;
    text-align: center;
    border-radius: 5px;
    display: inline-block;
  }
+
+h4 {
+   font-family: 'Inconsolata', sans-serif;
+   color: RGBA(238, 76, 60, 1);
+   text-align: center;
+   font-size: 130%;
+}
+h4:hover {
+  cursor: pointer;
+}
+
  .buttons {
    margin-left: 25%;
    margin-right: 25%;
+   box-shadow: none;
  }
 
- .encrypt-mess {
+ .login-user, .anon-encrypt-mess {
    margin-left: 30%;
  }
 
@@ -86,7 +116,7 @@ h2 {
  textarea {
    margin-top: 1%;
    margin-left: 5%;
-   font-size: 75%;
+   font-size: 100%;
    font-family: 'Inconsolata', sans-serif;
    height: 20%;
    width: 50%;
@@ -96,7 +126,7 @@ h2 {
   margin-left: 1%;
 }
 
-.done, .decoder-ring {
+.done, .decoder-ring, .anon-done {
   margin-top: 2%;
   height: 50%;
   font-size: 100%;
@@ -115,4 +145,112 @@ h2 {
 .try-again {
   width: 20%;
   margin-left: 41%;
+}
+
+nav {
+  margin-top: 0px;
+  background-color: RGBA(45, 45, 45, .4);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 45px;
+  width: 100%;
+
+}
+
+.login-create {
+  width: 15%;
+  margin-top: 1%;
+  position: absolute;
+  display: inline-block;
+  background-color: RGBA(255, 255, 255, 0);
+  font-weight: 600;
+  margin-left: 85%;
+}
+
+.history {
+  width: 20%;
+  margin-top: 1%;
+  margin-right: 3%;
+  position: absolute;
+  display: inline-block;
+  font-family: 'Inconsolata', sans-serif;
+  background-color: RGBA(255, 255, 255, 0);
+  font-weight: 600;
+  font-size: 120%;
+  margin-left: 80%;
+}
+
+.create-header {
+  font-family: 'Inconsolata', sans-serif;
+  background-color: RGBA(255, 255, 255, 0);
+  color: white;
+  font-size: 140%;
+  text-align: center;
+}
+
+.create-new {
+  margin-top: 5%;
+  width: 40%;
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 5%;
+  margin-right: 2%;
+  display: inline-block;
+  height: 40%;
+  border-right: solid white 1px;
+  margin-right: 5%;
+}
+
+.create-user {
+  width: 40%;
+  margin-top: 7%;
+  margin-left: 12%;
+}
+
+.create-email, .create-password {
+  margin: 1%;
+  width: 50%;
+}
+
+.decoder-ring, .done, .anon-done, .create-user, .login-btn {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  font-family: 'Inconsolata', sans-serif;
+  color: RGBA(238, 76, 60, 1);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: RGBA(45, 45, 45, .5);
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.login-form {
+  margin-left: 5%;
+  width: 40%;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.user-email, .user-password {
+  width: 50%;
+}
+
+.pass-div {
+  margin: 1%;
+}
+
+.login-btn {
+  margin-top: 7%;
+  width: 40%;
 }

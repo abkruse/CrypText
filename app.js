@@ -2,31 +2,164 @@
   'use strict';
 
   $(document).ready(function() {
-    var Create;
+    var Create, userId;
 
     var ref = new Firebase('https://cryptext.firebaseio.com/');
 
-    var Instance = function (name, secret, message) {
+    var Instance = function (name, secret, message, userId, status) {
       this.name = name;
       this.secret = secret;
       this.message = message;
+      this.userId = userId;
+      this.status = 'sent';
     };
 
-    $('.done').on('click', function(e) {
+    if (sessionStorage.id !== undefined) {
+      $('.login-create').before('<a href="history.html"><h3 class="history">My History</h3></a>');
+
+      $('.login-create').text('Logged In');
+
+      ref.orderByChild("userId").equalTo(sessionStorage.id).on("value", function(snapshot) {
+        var data = snapshot.val();
+        var keys = Object.keys(data);
+        var messages = [];
+        var statuses = [];
+        var dates = [];
+        var names = [];
+
+        for (var d = 0; d < keys.length; d++) {
+          var entryId = keys[d];
+          var entry = data[entryId];
+          messages.push(entry.message);
+          names.push(entry.name);
+          statuses.push(entry.status);
+          dates.push(entry.date);
+        }
+
+        $('.user-hist').append('<table class="his-table"><thead><th>Date Sent</th><th>Recipient</th><th>Encoded Message</th><th>Status</th></thead></table>');
+
+        for (var f = 0; f < messages.length; f++) {
+          $('.his-table').append('<tr><td>' + dates[f] + '</td><td>' + names[f] + '</td><td>' + messages[f] + '</td><td>' + statuses[f] + '</td></tr>');
+        }
+      });
+    }
+
+    $('.login-btn').on('click', function(e) {
       e.preventDefault();
 
-      Create = new Instance();
+      ref.authWithPassword( {
+        'password': $('.user-password').val(),
+        'email': $('.user-email').val()
+      }, function(error, authData) {
+        if (error) {
+          $('.email-div').attr('class', 'animated email-div shake');
+          $('.pass-div').attr('class', 'animated pass-div shake');
+        } else {
+          console.log(authData);
+          sessionStorage.id = authData.uid;
+          userId = authData.uid;
+          location.href='index.html';
+        }
+      });
+    });
 
-      Create.name = $('#name').val();
-      Create.secret = $('#secret-word').val().toLowerCase();
-      Create.message = $('#message').val();
+    $('.return').on('click', function(e){
+      e.preventDefault();
 
-      encryption();
+      $('.login-user').attr('class', 'login-user');
+      $('encrypt-mess').attr('class', 'encrypt-mess');
+      $('.anon-encrypt-mess').attr('class', 'anon-encrypt-mess hide');
+    });
+
+    $('.done').on('click', function(e){
+      e.preventDefault();
+
+      ref.authWithPassword({
+        'password': $('.user-password').val(),
+        'email': $('.user-email').val()
+      }, function(error, authData) {
+        if(error) {
+          $('.email-div').attr('class', 'animated email-div shake');
+          $('.pass-div').attr('class', 'animated pass-div shake');
+        } else {
+          console.log(authData);
+          sessionStorage.id = authData.uid;
+          userId = authData.uid;
+
+          if(!$('#name').val()) {
+            $('#name').attr('class', 'animated shake');
+          } else if(!$('#secret-word').val()) {
+            $('#secret-word').attr('class', 'animated shake');
+          } else if (!$('#message').val()) {
+            $('#message').attr('class', 'animated shake');
+          } else {
+            Create = new Instance();
+
+            Create.name = $('#name').val();
+            Create.secret = $('#secret-word').val().toLowerCase();
+            Create.message = $('#message').val();
+            Create.userId = sessionStorage.id;
+
+            encryption();
+          }
+        }
+      });
+    });
+
+    $('.create-user').on('click', function(e) {
+      e.preventDefault();
+
+      ref.createUser({
+        name: $('.create-name').val(),
+        email: $('.create-email').val(),
+        password: $('.create-password').val()
+      }, function(error, userData) {
+        if (error) {
+        switch (error.code) {
+          case "EMAIL_TAKEN" :
+            $('.create-email').after('<p>This email already has an account.</p>');
+            break;
+          case "INVALID_EMAIL":
+            $('.create-new').attr('class', 'animated create-new shake');
+            break;
+          default:
+            $('.create-new').attr('class', 'animated create-new shake');
+          }
+        } else {
+          console.log("Successfully created user account with uid:", userData.uid);
+          location.href='index.html';
+          sessionStorage.id = userData.uid;
+        }
+      });
+    });
+
+    $('.anon-done').on('click', function(e) {
+      e.preventDefault();
+
+      if(!$('#anon-name').val()) {
+        $('#anon-name').attr('class', 'animated shake');
+      } else if(!$('#anon-secret-word').val()) {
+        $('#anon-secret-word').attr('class', 'animated shake');
+      } else if (!$('#anon-message').val()) {
+        $('#anon-message').attr('class', 'animated shake');
+      } else {
+        Create = new Instance();
+
+        Create.name = $('#anon-name').val();
+        Create.secret = $('#anon-secret-word').val().toLowerCase();
+        Create.message = $('#anon-message').val();
+        if (sessionStorage.id !== undefined) {
+          Create.userId = sessionStorage.id;
+        } else {
+          Create.userId = '0000';
+        }
+        encryption();
+      }
     });
 
     var encryption = function() {
-      
-    var secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, getURL, decode, msg, cols, urlEnd;
+
+      var secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, getURL, decode, msg, cols, urlEnd;
 
       cols = Create.secret.length;
       secArr = [];
@@ -76,22 +209,31 @@
 
       var encrypted = encMsgArr.join('');
 
+      var date = new Date();
+      var today = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2,2);
+
       ref.push({
         name: Create.name,
         secret: Create.secret,
-        message: encrypted
+        message: encrypted,
+        userId: Create.userId,
+        status: 'sent',
+        date: today
       });
 
       ref.limitToLast(1).on("child_added", function(snapshot) {
         urlEnd = snapshot.key();
       });
 
+      var output = Create.name + ' says: ' + encrypted + '. Your keycode is ' + urlEnd + '. Go to http://www.cryptext.com to crack the code.';
+
+      console.log(output);
+
       setTimeout(function(){
         $('form').attr('class', 'hide');
+        $('h4').attr('class', 'hide');
 
-        $('form').after('<p class="msg"> The encrypted message: <br />' + encrypted + '</p>');
-
-        $('.msg').after('<p class="keycode"> Send this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
+        $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
       }, 200);
 
     };
@@ -115,6 +257,8 @@
 
         if (fbSecret === secret) {
 
+          instRef.update({status: 'opened'});
+
           returnMsg = [];
 
           for (var y = 0; y < fbMessage.length; y ++) {
@@ -133,7 +277,8 @@
           jmbleMsg = [];
           numArr = fbMessage.length / secret.length;
 
-          for (var l = 0; l < secret.length; l++) {
+          var count = 0;
+          for (var l = 0; l < numArr; l++) {
             for (var j = l; j < fbMessage.length; j += numArr) {
               jmbleMsg.push(returnMsg[j]);
             }
@@ -175,14 +320,12 @@
            setTimeout(function(){
              $('form').attr('class', 'hide');
 
-             $('form').after('<p> ' + senderName + ' sent you the following message: </p><p>'+ decodedMsg + '</p>');
-
+             $('.hide').after('<p> ' + senderName + ' sent you the following message: </p><p>'+ decodedMsg + '</p>');
            }, 200);
         } else {
             $('form').attr('class', 'hide');
 
-            $('h1').after('<h2>That is incorrect.</h2><p>The passcode is usually one word and is not case sensitive</p>');
-            $('p').after('<a href="crypt.html"><h3 class="try-again">Try Again</h3></a>');
+            $('h1').after('<h2>That is incorrect.</h2><p>The passcode is usually one word and is not case sensitive</p><a href="crypt.html"><p class="try-again"> -> Try Again <- </p></a>');
 
         }
       });
