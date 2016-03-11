@@ -26,14 +26,14 @@
         var messages = [];
         var statuses = [];
         var dates = [];
-        var names = [];
+        var recips = [];
 
         for (var d = 0; d < keys.length; d++) {
           var entryId = keys[d];
           var entry = data[entryId];
 
           messages.push(entry.message);
-          names.push(entry.name);
+          recips.push(entry.recipient);
           statuses.push(entry.status);
           dates.push(entry.date);
         }
@@ -41,7 +41,7 @@
         $('.user-hist').append('<table class="his-table"><thead><th>Date Sent</th><th>Recipient</th><th>Encoded Message</th><th>Status</th></thead></table>');
 
         for (var f = 0; f < messages.length; f++) {
-          $('.his-table').append('<tr><td>' + dates[f] + '</td><td>' + names[f] + '</td><td>' + messages[f] + '</td><td>' + statuses[f] + '</td></tr>');
+          $('.his-table').append('<tr><td>' + dates[f] + '</td><td>' + recips[f] + '</td><td>' + messages[f] + '</td><td>' + statuses[f] + '</td></tr>');
         }
       });
     }
@@ -97,6 +97,7 @@
             Create.secret = $('#secret-word').val().toLowerCase();
             Create.message = $('#message').val();
             Create.userId = sessionStorage.id;
+            Create.recip = $('#recip').val();
 
             encryption();
           }
@@ -143,6 +144,7 @@
         Create = new Instance();
 
         Create.name = $('#anon-name').val();
+        Create.recip = $('#anon-recip').val();
         Create.secret = $('#anon-secret-word').val().toLowerCase();
         Create.message = $('#anon-message').val();
         if (sessionStorage.id !== undefined) {
@@ -211,6 +213,7 @@
 
       ref.push({
         name: Create.name,
+        recipient: Create.recip,
         secret: Create.secret,
         message: encrypted,
         userId: Create.userId,
