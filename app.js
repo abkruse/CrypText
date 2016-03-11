@@ -222,18 +222,19 @@
         urlEnd = snapshot.key();
       });
 
-      var output = Create.name + ' says: ' + encrypted + '. Your keycode is ' + urlEnd + '. Go to http://www.cryptext.com to crack the code.';
+      var output = Create.name + '%20says:%20' + encrypted + '.%20Your%20keycode is%20' + urlEnd + '.%20Go%20to%20http://www.cryptext.com%20to%20crack%20the%20code.';
 
       setTimeout(function(){
         $('form').attr('class', 'hide');
         $('h4').attr('class', 'hide');
 
         $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
+        $('.msg').after('<a class="email-msg" href="mailto:%20?to&body=' + output + '&subject=Cryptext%20Message">Want to Email It?</a>');
       }, 200);
     };
 
     $('.decoder-ring').on('click', function(e) {
-      var secret, usrUrl, senderName, fbUrl, fbSecret, data, fbMessage, returnMsg, decodePass, alphaPass, jmbleMsg, mixMsg, roteMsg, decodedArr, decodedMsg, newOrdr, splitMsg, numArr, idx;
+      var alphaPass, data, decodePass, decodedArr, decodedMsg, fbMessage, fbSecret, fbUrl, idx, jmbleMsg, mixMsg, newOrdr, numArr, returnMsg, roteMsg, secret, senderName, splitMsg, usrUrl;
 
       e.preventDefault();
 

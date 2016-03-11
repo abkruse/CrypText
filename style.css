@@ -216,7 +216,7 @@ nav {
   width: 50%;
 }
 
-.decoder-ring, .done, .anon-done, .create-user, .login-btn {
+.decoder-ring, .done, .anon-done, .create-user, .email-msg, .login-btn {
   display: inline-block;
   height: 38px;
   padding: 0 30px;
@@ -257,4 +257,8 @@ nav {
   margin-top: 7%;
   width: 40%;
   margin-left: 15%;
+}
+
+.email-msg {
+  margin-left: 41%;
 }
