@@ -1,8 +1,6 @@
 (function() {
   'use strict';
 
-  //change sessionStorage to localStorage where logout uses .removeItem (pg. 325)
-
   $(document).ready(function() {
     var Create;
 
