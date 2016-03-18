@@ -159,12 +159,11 @@
     });
 
     var encryption = function() {
-      var secArr, messArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, msg, cols, urlEnd;
+      var secArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, msg, cols, urlEnd;
 
       cols = Create.secret.length;
       secArr = [];
       alphaArr = [];
-      messArr = [];
 
       for (var n = 0; n < cols; n++) {
         secArr.push(Create.secret[n]);
@@ -174,41 +173,33 @@
       msg = Create.message.replace(/[.,\/@#?!$%\^&\*;:{}=\-_`~()]/g,"");
       msg = msg.replace(/\s+/g, '');
 
-      for (var j = 0; j < msg.length; j++) {
-        messArr.push(msg.charAt(j));
-      }
 
-      if (Create.message.length % cols !== 0) {
-        for (var i = 0; i <= messArr.length % cols; i++ ){
-          messArr.push('x');
+      if (msg.length % cols !== 0) {
+        for (var i = 0; i <= msg.length % cols; i++ ){
+          msg += 'x';
         }
       }
 
-      numArr = messArr.length / cols;
-      splitMsg = [];
-
-      for (var k = 0; k < numArr; k++) {
-        splitMsg.push(messArr.splice(0, cols));
-      }
+      numArr = msg.length / cols;
 
       newOrdr = [];
       alphaArr.sort();
 
       for (var m = 0; m < secArr.length; m++ ) {
-        newOrdr.push(alphaArr.indexOf(secArr[m]));
-        alphaArr.splice(newOrdr[m], 1, '*');
+        newOrdr.push(secArr.indexOf(alphaArr[m]));
+        secArr.splice(newOrdr[m], 1, '*');
       }
 
-      encMsgArr = [];
+      var encrypted = '';
 
       for (var y = 0; y < newOrdr.length; y++) {
-        idx = newOrdr.indexOf(y);
+        var start = newOrdr[y];
+
         for (var z = 0; z < numArr; z++) {
-          encMsgArr.push(splitMsg[z][idx]);
+          idx = start + (z * newOrdr.length);
+          encrypted += msg.charAt(idx);
         }
       }
-
-      var encrypted = encMsgArr.join('');
 
       var date = new Date();
       var today = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2, 2);
