@@ -1,6 +1,8 @@
 (function() {
   'use strict';
 
+  //change sessionStorage to localStorage where logout uses .removeItem (pg. 325)
+
   $(document).ready(function() {
     var Create;
 
@@ -316,7 +318,7 @@
           setTimeout(function(){
             $('form').attr('class', 'hide');
 
-            $('.hide').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
+            $('h1').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
            }, 200);
         } else {
           $('form').attr('class', 'hide');
