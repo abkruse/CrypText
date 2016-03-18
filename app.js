@@ -159,7 +159,7 @@
     });
 
     var encryption = function() {
-      var secArr, numArr, splitMsg, newOrdr, alphaArr, idx, encMsgArr, msg, cols, urlEnd;
+      var secArr, numArr, newOrdr, alphaArr, idx, msg, cols, urlEnd;
 
       cols = Create.secret.length;
       secArr = [];
@@ -173,9 +173,8 @@
       msg = Create.message.replace(/[.,\/@#?!$%\^&\*;:{}=\-_`~()]/g,"");
       msg = msg.replace(/\s+/g, '');
 
-
       if (msg.length % cols !== 0) {
-        for (var i = 0; i <= msg.length % cols; i++ ){
+        for (var i = 0; i <= msg.length % cols; i++ ) {
           msg += 'x';
         }
       }
@@ -185,7 +184,7 @@
       newOrdr = [];
       alphaArr.sort();
 
-      for (var m = 0; m < secArr.length; m++ ) {
+      for (var m = 0; m < secArr.length; m++) {
         newOrdr.push(secArr.indexOf(alphaArr[m]));
         secArr.splice(newOrdr[m], 1, '*');
       }
@@ -202,7 +201,7 @@
       }
 
       var date = new Date();
-      var today = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2, 2);
+      var today = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear().toString().substr(2, 2);
 
       ref.push({
         name: Create.name,
@@ -220,7 +219,7 @@
 
       var output = Create.name + '%20says:%20' + encrypted + '.%20Your%20keycode is%20' + urlEnd + '.%20Go%20to%20http://www.cryptext.com%20to%20crack%20the%20code.';
 
-      setTimeout(function(){
+      setTimeout(function() {
         $('form').attr('class', 'hide');
         $('h4').attr('class', 'hide');
 
@@ -230,7 +229,7 @@
     };
 
     $('.decoder-ring').on('click', function(e) {
-      var alphaPass, data, decodePass, decodedArr, decodedMsg, fbMessage, fbSecret, fbUrl, idx, jmbleMsg, mixMsg, newOrdr, numArr, returnMsg, roteMsg, secret, senderName, splitMsg, usrUrl;
+      var alphaPass, data, decodePass, decodedMsg, fbMessage, fbSecret, fbUrl, idx, newOrdr, numArr, returnMsg, secret, senderName, splitMsg, usrUrl;
 
       e.preventDefault();
 
@@ -249,10 +248,10 @@
         if (fbSecret === secret) {
           instRef.update({ status: 'opened' });
 
-          returnMsg = [];
+          returnMsg = '';
 
           for (var y = 0; y < fbMessage.length; y++) {
-            returnMsg.push(fbMessage.charAt(y));
+            returnMsg += fbMessage.charAt(y);
           }
 
           decodePass = [];
@@ -264,53 +263,32 @@
           }
 
           alphaPass.sort();
-          jmbleMsg = [];
           numArr = fbMessage.length / secret.length;
-
-          for (var l = 0; l < numArr; l++) {
-            for (var j = l; j < fbMessage.length; j += numArr) {
-              jmbleMsg.push(returnMsg[j]);
-            }
-          }
-
-          splitMsg = [];
-
-          for (var p = 0; p < numArr; p++) {
-            splitMsg.push(jmbleMsg.splice(0, secret.length));
-          }
 
           newOrdr = [];
 
-          for (var m = 0; m < decodePass.length; m++ ) {
-            newOrdr.push(decodePass.indexOf(alphaPass[m]));
-            decodePass.splice(newOrdr[m], 1, '*');
+          for (var m = 0; m < decodePass.length; m++) {
+            newOrdr.push(alphaPass.indexOf(decodePass[m]));
+            alphaPass.splice(newOrdr[m], 1, '*');
           }
 
-          mixMsg = [];
-          roteMsg = [];
+          decodedMsg = '';
 
-          for (var z = 0; z < newOrdr.length; z++) {
-            idx = newOrdr.indexOf(z);
+          for (var j = 0; j < numArr; j++) {
+            for (var k = 0; k < fbSecret.length; k++) {
+              var idNum = newOrdr[k];
 
-            for(var x = 0; x < numArr; x++) {
-              mixMsg.push(splitMsg[x][idx]);
-            }
-            roteMsg.push(mixMsg.splice(0, numArr));
-          }
-          decodedArr = [];
+              idx = j + (numArr * idNum);
 
-          for (var a = 0; a < numArr; a++ ) {
-            for (var b = 0; b < secret.length; b++) {
-              decodedArr.push(roteMsg[b][a]);
+              decodedMsg += returnMsg.charAt(idx);
             }
           }
-          decodedMsg = decodedArr.join('');
 
           setTimeout(function(){
             $('form').attr('class', 'hide');
 
             $('h1').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
-           }, 200);
+          }, 200);
         } else {
           $('form').attr('class', 'hide');
 
