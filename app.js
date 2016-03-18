@@ -217,13 +217,11 @@
 
       var output = Create.name + '%20says:%20' + encrypted + '.%20Your%20keycode is%20' + urlEnd + '.%20Go%20to%20http://www.cryptext.com%20to%20crack%20the%20code.';
 
-      setTimeout(function() {
-        $('form').attr('class', 'hide');
-        $('h4').attr('class', 'hide');
+      $('form').attr('class', 'hide');
+      $('h4').attr('class', 'hide');
 
-        $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
-        $('.msg').after('<a class="email-msg" href="mailto:%20?to&body=' + output + '&subject=Cryptext%20Message">Want to Email It?</a>');
-      }, 200);
+      $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
+      $('.msg').after('<a class="email-msg" href="mailto:%20?to&body=' + output + '&subject=Cryptext%20Message">Want to Email It?</a>');
     };
 
     $('.decoder-ring').on('click', function(e) {
@@ -281,12 +279,9 @@
               decodedMsg += returnMsg.charAt(idx);
             }
           }
+          $('form').attr('class', 'hide');
 
-          setTimeout(function(){
-            $('form').attr('class', 'hide');
-
-            $('h1').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
-          }, 200);
+          $('h1').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
         } else {
           $('form').attr('class', 'hide');
 
