@@ -160,8 +160,9 @@ nav {
 
 }
 
-.login-create {
+.login-create, .log-out {
   width: 15%;
+  font-family: 'Inconsolata', sans-serif;
   margin-top: 1%;
   position: absolute;
   display: inline-block;
@@ -261,4 +262,10 @@ nav {
 
 .email-msg {
   margin-left: 41%;
+}
+
+.log-out {
+  width: 100px;
+  margin-right: 10%;
+  margin-left: 85%;
 }

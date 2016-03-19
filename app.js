@@ -15,9 +15,10 @@
     };
 
     if (sessionStorage.id !== undefined) {
-      $('.login-create').before('<a href="history.html"><h3 class="history">My History</h3></a>');
+      $('.a-login').before('<a class="his-btn" href="history.html"><h3 class="history">My History</h3></a>');
 
-      $('.login-create').text('Logged In');
+      $('.a-login').detach();
+      $('.his-btn').after('<a class="log-out" href="index.html"><h3 class="log-out">Log Out</h3></a>');
       $('.return').remove();
 
       ref.orderByChild('userId').equalTo(sessionStorage.id).on('value', function(snapshot) {
@@ -45,6 +46,13 @@
         }
       });
     }
+
+    $('.log-out').on('click', function(e) {
+      e.preventDefault();
+
+      window.location.replace("index.html");
+      sessionStorage.removeItem('id');
+    });
 
     $('.login-btn').on('click', function(e) {
       e.preventDefault();
@@ -217,11 +225,11 @@
 
       var output = Create.name + '%20says:%20' + encrypted + '.%20Your%20keycode is%20' + urlEnd + '.%20Go%20to%20http://www.cryptext.com%20to%20crack%20the%20code.';
 
-      $('form').attr('class', 'hide');
-      $('h4').attr('class', 'hide');
+        $('form').attr('class', 'hide');
+        $('h4').attr('class', 'hide');
 
-      $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
-      $('.msg').after('<a class="email-msg" href="mailto:%20?to&body=' + output + '&subject=Cryptext%20Message">Want to Email It?</a>');
+        $('.a-header').after('<p class="msg"> The encrypted message: <br />' + encrypted + '<br /> <br /> Use this keycode with the message to crack the code: <br />' + urlEnd + '</p>');
+        $('.msg').after('<a class="email-msg" href="mailto:%20?to&body=' + output + '&subject=Cryptext%20Message">Want to Email It?</a>');
     };
 
     $('.decoder-ring').on('click', function(e) {
