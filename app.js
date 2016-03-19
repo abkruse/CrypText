@@ -177,11 +177,11 @@
       }
 
       msg = Create.message.replace(/[.,\/@#?!$%\^&\*;:{}=\-_`~()]/g,"");
-      msg = msg.replace(/\s+/g, '');
+      msg = msg.replace(/\s+/g, '/');
 
       if (msg.length % cols !== 0) {
         for (var i = 0; i <= msg.length % cols; i++ ) {
-          msg += 'x';
+          msg += '/';
         }
       }
 
@@ -287,6 +287,9 @@
               decodedMsg += returnMsg.charAt(idx);
             }
           }
+
+          decodedMsg = decodedMsg.replace(/\//g, ' ');
+
           $('form').attr('class', 'hide');
 
           $('h1').after('<p> ' + senderName + ' sent you the following message: </p><p>' + decodedMsg + '</p>');
