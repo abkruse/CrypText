@@ -223,7 +223,7 @@
         urlEnd = snapshot.key();
       });
 
-      var output = Create.name + '%20says:%20' + encrypted + '.%20Your%20keycode is%20' + urlEnd + '.%20Go%20to%20http://www.cryptext.com%20to%20crack%20the%20code.';
+      var output = Create.name + '%20says:%20' + encrypted + '.%20Your%20keycode is%20' + urlEnd + '.%20Go%20to%20http://cryptext.surge.sh/%20to%20crack%20the%20code.';
 
         $('form').attr('class', 'hide');
         $('h4').attr('class', 'hide');
