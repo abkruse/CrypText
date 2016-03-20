@@ -246,13 +246,13 @@ nav {
   display: inline-block;
 }
 
-.user-email, .user-password {
+.user-email {
   width: 50%;
 }
 
-.pass-div {
-  margin: 1%;
-}
+ .user-password {
+   width: 46%;
+ }
 
 .login-btn {
   margin-top: 7%;
